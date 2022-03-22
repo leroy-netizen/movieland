@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import "./App.css";
 import SearchIcon from "./search.svg";
 import MovieCard from "./components/MovieCard.component";
@@ -17,11 +17,15 @@ const movie1 = {
 };
 
 const App = () => {
+  //setting a new state for movies
+  const [movies, setMovies] = useState([]);
+  const [searchTerm, setSearchTerm] = useState("");
   //function for fetching movies
   const searchMovies = async (title) => {
     const response = await fetch(`${API_URL} &s=${title}`);
     const data = await response.json();
-    console.log(data.Search);
+    setMovies(data.Search);
+    // console.log(data.Search);
   };
   //the useEffect hook accepts a callback func and an empty dependency array if we only want to call it at the start.
   useEffect(() => {
@@ -35,14 +39,26 @@ const App = () => {
         <input
           placeholder="search movie"
           type="text"
-          value="Batman"
-          onChange={() => {}}
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
         />
-        <img src={SearchIcon} alt="search" onClick={() => {}} />
+        <img
+          src={SearchIcon}
+          alt="search"
+          onClick={() => searchMovies(searchTerm)}
+        />
       </div>
-      <div className="container">
-        <MovieCard movie1={movie1} />
-      </div>
+      {movies?.length > 0 ? (
+        <div className="container">
+          {movies.map((movie) => (
+            <MovieCard movie={movie} />
+          ))}
+        </div>
+      ) : (
+        <div className="empty">
+          <h2> No movies Found </h2>
+        </div>
+      )}
     </div>
   );
 };
