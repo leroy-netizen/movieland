@@ -1,25 +1,48 @@
-import logo from './logo.svg';
-import './App.css';
+import { useEffect } from "react";
+import "./App.css";
+import SearchIcon from "./search.svg";
 
-function App() {
+//1b2f9763
+
+const API_URL = "http://www.omdbapi.com?apikey=1b2f9763";
+
+const movie1 = {
+  Poster:
+    "https://m.media-amazon.com/images/M/MV5BOTY4YjI2N2MtYmFlMC00ZjcyLTg3YjEtMDQyM2ZjYzQ5YWFkXkEyXkFqcGdeQXVyMTQxNzMzNDI@._V1_SX300.jpg",
+  Title: "Batman Begins",
+  Type: "movie",
+  Year: "2005",
+  imdbID: "tt0372784",
+};
+
+const App = () => {
+  //function for fetching movies
+  const searchMovies = async (title) => {
+    const response = await fetch(`${API_URL} &s=${title}`);
+    const data = await response.json();
+    console.log(data.Search);
+  };
+  //the useEffect hook accepts a callback func and an empty dependency array if we only want to call it at the start.
+  useEffect(() => {
+    searchMovies("Batman");
+  }, []);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="app">
+      <h1>MovieLand</h1>
+      <div className="search">
+        <input
+          placeholder="search movie"
+          type="text"
+          value="Batman"
+          onChange={() => {}}
+        />
+        <img src={SearchIcon} alt="search" onClick={() => {}} />
+      </div>
+      <div className="container">
+        <div className="movie"></div>
+      </div>
     </div>
   );
-}
-
+};
 export default App;
