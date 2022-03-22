@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import "./App.css";
 import SearchIcon from "./search.svg";
+import MovieCard from "./components/MovieCard.component";
 
 //1b2f9763
 
@@ -40,7 +41,7 @@ const App = () => {
         <img src={SearchIcon} alt="search" onClick={() => {}} />
       </div>
       <div className="container">
-        <div className="movie"></div>
+        <MovieCard movie1={movie1} />
       </div>
     </div>
   );
